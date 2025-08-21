@@ -1,0 +1,28 @@
+env: "local"
+
+http_server: 
+  address: "localhost:8081"
+  timeout: 4s
+  idle_timeout: 60s 
+
+db:
+  host: "localhost"
+  port: 5432
+  user: "postgres"
+  password: ""
+  dbname: "L0_db"
+  sslmode: "disable"
+
+kafka:
+  brokers: ["127.0.0.1:9092"]
+  topic: ""
+  group_id: ""
+  dlq_topic: ""
+  client_id: ""
+
+cache:
+  max_entries: 2000
+
+log:
+  level: "debug"
+  format: "text"

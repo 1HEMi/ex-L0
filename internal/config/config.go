@@ -18,26 +18,26 @@ type Config struct {
 }
 
 type HTTPServer struct {
-	Address     string        `env-default:":8080"`
-	Timeout     time.Duration `env-default:"4s"`
-	IdleTimeout time.Duration `env-default:"60s"`
+	Address     string        `yaml:"address" env-default:":8080"`
+	Timeout     time.Duration `yaml:"timeout" env-default:"4s"`
+	IdleTimeout time.Duration `yaml:"idle_timeout" env-default:"60s"`
 }
 
 type DB struct {
 	Host     string `yaml:"host" env-default:"localhost"`
 	Port     int    `yaml:"port" env-default:"5432"`
 	User     string `yaml:"user" env-default:"postgres"`
-	Password string `yaml:"password" env-default:""`
+	Password string `yaml:"password" env-default:"postgres123"`
 	DBName   string `yaml:"dbname" env-default:"L0_db"`
 	SSLMode  string `yaml:"sslmode" env-default:"disable"`
 }
 
 type Kafka struct {
 	Brokers  []string `yaml:"brokers" env:""`
-	Topic    string   `yaml:"topic" env-default:""`
-	GroupID  string   `yaml:"group_id" env-default:""`
-	DLQTopic string   `yaml:"dlq_topic" env-default:""`
-	ClientID string   `yaml:"client_id" env-default:""`
+	Topic    string   `yaml:"topic" env-default:"orders"`
+	GroupID  string   `yaml:"group_id" env-default:"orderservice"`
+	DLQTopic string   `yaml:"dlq_topic" env-default:"orders-dlq"`
+	ClientID string   `yaml:"client_id" env-default:"orderservice"`
 }
 
 type Cache struct {
@@ -45,12 +45,12 @@ type Cache struct {
 }
 
 type Log struct {
-	Level  string `yaml:"level" env-default:"info"`  // debug|info|warn|error
-	Format string `yaml:"format" env-default:"text"` // text|json
+	Level  string `yaml:"level" env-default:"info"`
+	Format string `yaml:"format" env-default:"text"`
 }
 
-func MustLoad() *Config {
-	configPath := "C:/Users/HEMi/Desktop/ex-L0/config/local.yaml"
+func Load() *Config {
+	configPath := "C:/Users/knyaz/Desktop/WB/ex-L0/config/local.yaml"
 	if configPath == "" {
 		log.Fatal("CONFIG_PATH environment variable is not set")
 	}

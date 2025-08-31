@@ -14,6 +14,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+//go:embed ui/*
 var uiFS embed.FS
 
 type HTTPServer struct {
@@ -56,10 +57,18 @@ func (s *HTTPServer) StartServer(ctx context.Context) error {
 	}).Methods(http.MethodGet)
 
 	h := &Handlers{Log: s.log, OrdersService: s.orders, Cache: s.cache}
-	api := router.PathPrefix("/api/v1").Subrouter()
-	api.HandleFunc("/orders/{order_uid}", h.HandlerGetOrderByID).
+	router.HandleFunc("/order/{order_uid}", h.HandlerGetOrderByID).
 		Methods(http.MethodGet)
-
+	router.HandleFunc("/order", func(w http.ResponseWriter, r *http.Request) {
+		b, err := uiFS.ReadFile("ui/order.html")
+		if err != nil {
+			http.Error(w, "order page not found", http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write(b)
+	}).Methods(http.MethodGet)
 	router.PathPrefix("/").Handler(http.FileServer(http.FS(uiFS)))
 	server := &http.Server{
 		Addr:              s.cfg.Address,

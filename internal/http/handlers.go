@@ -29,6 +29,7 @@ func (h *Handlers) HandlerGetOrderByID(w http.ResponseWriter, r *http.Request) {
 
 	if o, ok := h.Cache.Get(uid); ok {
 		writeJSON(w, http.StatusOK, o)
+		return
 	}
 
 	o, err := h.OrdersService.GetByID(r.Context(), uid)

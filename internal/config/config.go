@@ -25,7 +25,7 @@ type HTTPServer struct {
 
 type DB struct {
 	Host     string `yaml:"host" env-default:"localhost"`
-	Port     int    `yaml:"port" env-default:"5432"`
+	Port     int    `yaml:"port" env-default:"5433"`
 	User     string `yaml:"user" env-default:"postgres"`
 	Password string `yaml:"password" env-default:"postgres123"`
 	DBName   string `yaml:"dbname" env-default:"L0_db"`
@@ -33,7 +33,7 @@ type DB struct {
 }
 
 type Kafka struct {
-	Brokers  []string `yaml:"brokers" env:""`
+	Brokers  []string `yaml:"brokers"`
 	Topic    string   `yaml:"topic" env-default:"orders"`
 	GroupID  string   `yaml:"group_id" env-default:"orderservice"`
 	DLQTopic string   `yaml:"dlq_topic" env-default:"orders-dlq"`
@@ -50,7 +50,7 @@ type Log struct {
 }
 
 func Load() *Config {
-	configPath := "C:/Users/knyaz/Desktop/WB/ex-L0/config/local.yaml"
+	configPath := "C:/Users/HEMi/Desktop/ex-L0/config/local.yaml"
 	if configPath == "" {
 		log.Fatal("CONFIG_PATH environment variable is not set")
 	}

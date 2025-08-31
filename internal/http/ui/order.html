@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Поиск заказа</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    body { margin: 0; background: #f6f7f9; }
+    .wrap { min-height: 100dvh; display: grid; place-items: center; padding: 24px; }
+    .card { background: #fff; width: 100%; max-width: 520px; padding: 24px; border-radius: 16px; box-shadow: 0 6px 30px rgba(0,0,0,.07); }
+    h1 { margin: 0 0 16px; font-size: 22px; }
+    p.help { margin: 0 0 16px; color: #666; }
+    .row { display: flex; gap: 8px; margin-top: 16px; }
+    .row input[type="text"] {
+      flex: 1;                        /* растянуть поле на всю ширину */
+      padding: 10px 12px;
+      border: 1px solid #d7d9de;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+    }
+    .row input[type="text"]:focus {
+      border-color: #7cafff;
+      box-shadow: 0 0 0 3px rgba(124,175,255,.2);
+    }
+    .row button {
+      padding: 10px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: #2a62ff;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .row button:hover { filter: brightness(1.05); }
+    .err { color: #c00; font-size: 14px; margin-top: 8px; display: none; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Найти заказ</h1>
+      <p class="help">Введите <strong>ID заказа:</strong></p>
+
+      <form id="form" autocomplete="off">
+        <div class="row">
+          <input id="uid" name="uid" type="text" autofocus />
+          <button type="submit">Найти</button>
+        </div>
+        <div id="err" class="err">Введите ID заказа:</div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('form');
+    const uidInput = document.getElementById('uid');
+    const err = document.getElementById('err');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const uid = (uidInput.value || '').trim();
+      if (!uid) {
+        err.style.display = 'block';
+        uidInput.focus();
+        return;
+      }
+      window.location.href = '/order/' + encodeURIComponent(uid);
+    });
+
+    uidInput.addEventListener('input', () => { err.style.display = 'none'; });
+  </script>
+</body>
+</html>

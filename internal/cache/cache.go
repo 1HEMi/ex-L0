@@ -48,16 +48,16 @@ func (c *Cache) Set(key string, val *domain.Order) {
 	c.mx.Lock()
 	defer c.mx.Unlock()
 	if e, ok := c.index[key]; ok {
-		e.Value = entry{key: key, value: val}
+		e.Value = &entry{key: key, value: val}
 		c.list.MoveToFront(e)
 		return
 	}
-	el := c.list.PushFront(entry{key: key, value: val})
+	el := c.list.PushFront(&entry{key: key, value: val})
 	c.index[key] = el
 	if c.list.Len() > c.cap {
 		back := c.list.Back()
 		if back != nil {
-			ent := back.Value.(entry)
+			ent := back.Value.(*entry)
 			delete(c.index, ent.key)
 			c.list.Remove(back)
 		}

@@ -1,0 +1,12 @@
+config/local.yaml
+.env
+*.env
+
+#Postgres и Kafka
+pgdata/
+kafka-data/
+
+#Временные файлы
+.idea/
+.vscode/
+*.log
